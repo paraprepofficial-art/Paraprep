@@ -2916,13 +2916,13 @@
   </div>
 
   <!-- Mobile only: brand centre — logo links to landing page -->
-  <a class="topbar-brand" href="index.html" title="Go to Home">
+  <a class="topbar-brand" href="index.html" title="Go to Landing Page">
     <div class="topbar-brand-name"><span class="para">Para</span><span class="prep">Prep</span></div>
   </a>
 
   <!-- Desktop: logo + name — links to landing page -->
   <div class="topbar-desktop-top" style="display:none;">
-    <a class="topbar-desktop-brand" href="index.html" title="Go to Home" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
+    <a class="topbar-desktop-brand" href="index.html" title="Go to Landing Page" style="text-decoration:none;display:flex;align-items:center;gap:10px;">
       <div style="width:36px;height:36px;border-radius:10px;overflow:hidden;flex-shrink:0;">
         <img src="favicon.png" width="46" height="46" alt="ParaPrep Logo" style="width:46px;height:46px;object-fit:cover;border-radius:12px;">
       </div>
@@ -3017,7 +3017,7 @@
   <div class="sidebar-nav">
     <div class="sidebar-section-label">Study</div>
     <button class="sidebar-item active" id="si-home" onclick="sidebarNav('home')">
-      <span class="si-icon">🏠</span><span class="si-label">Home</span>
+      <span class="si-icon">📊</span><span class="si-label">Dashboard</span>
     </button>
     <button class="sidebar-item" id="si-revision" onclick="sidebarNav('revision')">
       <span class="si-icon">📖</span><span class="si-label">Quick Revision</span>
@@ -3828,7 +3828,7 @@
           <div class="br-select-wrap">
             <select id="br-section" class="br-select">
               <option value="">— Select a section —</option>
-              <option value="Home Screen">🏠 Home Screen</option>
+              <option value="Home Screen">📊 Dashboard</option>
               <option value="Practice Mode">🎯 Practice Mode</option>
               <option value="Mock Test">📋 Mock Test</option>
               <option value="Topics MCQ">🗂️ Topics MCQ</option>
@@ -4269,7 +4269,7 @@
 
     <!-- Action buttons inside card -->
     <div style="display:flex;gap:8px;margin-top:6px;">
-      <button onclick="showScreen('home')" class="result-action-ghost">← Home</button>
+      <button onclick="showScreen('home')" class="result-action-ghost">← Dashboard</button>
       <button onclick="shareScoreCard()" class="result-action-ghost">📤 Share</button>
       <button onclick="retryQuiz()" class="result-action-primary" id="result-retry-btn">New Quiz →</button>
     </div>
@@ -8450,8 +8450,8 @@ document.addEventListener('DOMContentLoaded', function() {
   </button>
   <button class="bn-tab active" id="bn-home" onclick="bnSwitch('home',this)">
     <span class="bn-dot"></span>
-    <span class="bn-icon">🏠</span>
-    <span class="bn-label">Home</span>
+    <span class="bn-icon">📊</span>
+    <span class="bn-label">Dashboard</span>
   </button>
   <button class="bn-tab" id="bn-performance" onclick="bnSwitch('performance',this)">
     <span class="bn-dot"></span>

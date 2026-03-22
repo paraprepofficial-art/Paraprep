@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://paraprepofficial-art.github.io/Paraprep/sitemap.xml
