@@ -139,6 +139,7 @@ body {
   width: 100%; height: 100%;
 }
 .hero { cursor: default; }
+.hero-bg {
   position: absolute; inset: 0; z-index: 0;
   background:
     radial-gradient(ellipse 80% 60% at 50% -10%, rgba(251,191,36,.12) 0%, transparent 60%),
@@ -1353,4 +1354,13 @@ document.addEventListener('click', (e) => {
   if (mobileDrawer.classList.contains('open') &&
       !mobileDrawer.contains(e.target) &&
       !hamburgerBtn.contains(e.target)) {
-    closeD
+    closeDrawer();
+  }
+});
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeDrawer();
+});
+</script>
+</body>
+</html>
