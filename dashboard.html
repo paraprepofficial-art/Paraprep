@@ -1589,7 +1589,11 @@
   /* Settings screen layout */
   #screen-settings{display:none;flex-direction:column;height:calc(100vh - 56px);}
   #screen-settings.active{display:flex;}
-  .settings-scroll{overscroll-behavior:contain;flex:1;min-height:0;overflow-y:auto;padding:16px 16px 40px;scrollbar-width:none;}
+  .settings-scroll{overscroll-behavior:contain;flex:1;min-height:0;overflow-y:auto;padding:16px 16px 40px;scrollbar-width:thin;scrollbar-color:rgba(251,191,36,.35) transparent;}
+  .settings-scroll::-webkit-scrollbar{width:5px;}
+  .settings-scroll::-webkit-scrollbar-track{background:transparent;}
+  .settings-scroll::-webkit-scrollbar-thumb{background:rgba(251,191,36,.35);border-radius:50px;}
+  .settings-scroll::-webkit-scrollbar-thumb:hover{background:rgba(251,191,36,.65);}
 
   /* Fixed top bar */
   .settings-topbar{display:flex;align-items:center;gap:12px;padding:14px 16px 12px;
@@ -1602,8 +1606,7 @@
   .settings-back-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lt);}
   .settings-topbar-title{font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--text);flex:1;}
 
-  /* Scrollable content area */
-  .settings-scroll{overscroll-behavior:contain;flex:1;min-height:0;overflow-y:auto;padding:16px 16px 40px;scrollbar-width:none;}
+  /* Scrollable content area — scrollbar shown on desktop */
 
 
   /* ══════════════════════════════════════════════
@@ -1697,10 +1700,13 @@
   /* About screen layout */
   #screen-about{display:none;flex-direction:column;height:calc(100vh - 56px);}
   #screen-about.active{display:flex;}
-  .about-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 0 40px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .about-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 0 40px;scrollbar-width:thin;scrollbar-color:rgba(251,191,36,.35) transparent;-webkit-overflow-scrolling:touch;}
+  .about-scroll::-webkit-scrollbar{width:5px;}
+  .about-scroll::-webkit-scrollbar-track{background:transparent;}
+  .about-scroll::-webkit-scrollbar-thumb{background:rgba(251,191,36,.35);border-radius:50px;}
+  .about-scroll::-webkit-scrollbar-thumb:hover{background:rgba(251,191,36,.65);}
   #screen-terms,#screen-privacy,#screen-bugreport{display:none;flex-direction:column;height:calc(100vh - 56px);}
   #screen-terms.active,#screen-privacy.active,#screen-bugreport.active{display:flex;}
-  .settings-scroll{-webkit-overflow-scrolling:touch;}
 
   /* Top bar */
   .about-topbar{display:flex;align-items:center;gap:12px;padding:14px 16px 12px;
@@ -1712,10 +1718,8 @@
     color:var(--muted);transition:all .18s;flex-shrink:0;}
   .about-back-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lt);}
   .about-topbar-title{font-family:var(--font-display);font-size:17px;font-weight:900;color:var(--text);flex:1;}
-  .about-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 0 40px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
   #screen-terms,#screen-privacy,#screen-bugreport{display:none;flex-direction:column;height:calc(100vh - 56px);}
   #screen-terms.active,#screen-privacy.active,#screen-bugreport.active{display:flex;}
-  .settings-scroll{-webkit-overflow-scrolling:touch;}
 
 
   /* About hero — clean minimal, matches website theme */
@@ -2904,6 +2908,60 @@
     color:var(--muted);            /* ← readable in both modes */
     font-weight:500;margin-bottom:36px;line-height:1.5;
   }
+
+  /* ── PC SCROLL FIX: Settings / About / Terms / Privacy / Bug Report ──
+     On desktop the flex screens are inside .container which has padding-top:20px,
+     and body has padding-top:56px. This pushes the screens 76px from the top,
+     but their height was calc(100vh-56px), making them 20px taller than the
+     visible area. The page scrolled instead of the inner scroll div.
+     Fix: use position:fixed so these screens sit exactly in the content area. */
+  @media(min-width:641px){
+    #screen-settings.active,
+    #screen-about.active,
+    #screen-terms.active,
+    #screen-privacy.active,
+    #screen-bugreport.active{
+      position:fixed;
+      top:56px;
+      left:240px;
+      right:0;
+      bottom:0;
+      height:auto !important;
+      background:var(--bg);
+      z-index:50;
+    }
+  }
+  /* Tablet portrait: sidebar is 200px wide */
+  @media(min-width:641px) and (max-width:899px){
+    #screen-settings.active,
+    #screen-about.active,
+    #screen-terms.active,
+    #screen-privacy.active,
+    #screen-bugreport.active{
+      left:200px;
+    }
+  }
+  /* ── MOBILE SCROLL FIX: Settings / About / Terms / Privacy / Bug Report ──
+     On mobile these flex screens sit inside .container (padding-top:20px),
+     so they start at 76px from top but are calc(100vh-56px) tall — overflowing
+     20px past the viewport bottom. Page scrolls instead of inner div.
+     Fix: position:fixed exactly between topbar and bottom-nav. */
+  @media(max-width:600px){
+    #screen-settings.active,
+    #screen-about.active,
+    #screen-terms.active,
+    #screen-privacy.active,
+    #screen-bugreport.active{
+      position:fixed;
+      top:56px;
+      left:0;
+      right:0;
+      bottom:64px;
+      height:auto !important;
+      background:var(--bg);
+      z-index:50;
+    }
+  }
 </style>
 </head>
 <body>
@@ -3620,7 +3678,7 @@
         If you have any questions about these Terms &amp; Conditions, please reach out to us at:
         <div class="legal-contact">
           <span>📧</span>
-          <a href="mailto:paraprep.official@gmail.com" class="legal-email">paraprep.official@gmail.com</a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank">paraprep.official@gmail.com</a>
         </div>
       </div>
     </div>
@@ -3717,7 +3775,7 @@
     <div class="legal-section">
       <div class="legal-section-title">6. Bug Reports</div>
       <div class="legal-section-body">
-        If you submit a bug report using the in-app "Report a Bug" form, the report is sent via Gmail to <a href="mailto:paraprep.official@gmail.com">paraprep.official@gmail.com</a>. The report may contain the information you voluntarily type (bug description, section, question number). We use this information only to fix the reported issue and do not share it with any third parties.
+        If you submit a bug report using the in-app "Report a Bug" form, the report is sent via Gmail to <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank">paraprep.official@gmail.com</a>. The report may contain the information you voluntarily type (bug description, section, question number). We use this information only to fix the reported issue and do not share it with any third parties.
       </div>
     </div>
 
@@ -3758,7 +3816,7 @@
         For any privacy-related questions or concerns, please contact us at:
         <div class="legal-contact">
           <span>📧</span>
-          <a href="mailto:paraprep.official@gmail.com" class="legal-email">paraprep.official@gmail.com</a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank">paraprep.official@gmail.com</a>
         </div>
       </div>
     </div>
@@ -3789,7 +3847,7 @@
       <div class="br-hero-emoji">🐛</div>
       <div class="br-hero-title">Found something broken?</div>
       <div class="br-hero-sub">Tell us what went wrong and we'll fix it fast. Your feedback helps make ParaPrep better for everyone.</div>
-      <div class="br-hero-badge">📬 Sent to <a href="mailto:paraprep.official@gmail.com">paraprep.official@gmail.com</a></div>
+      <div class="br-hero-badge">📬 Sent to <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" target="_blank">paraprep.official@gmail.com</a></div>
     </div>
 
     <!-- ── Form Card ── -->
@@ -8494,22 +8552,4 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="exit-confirm-sub">Your progress will be lost.</div>
     <div class="exit-confirm-btns">
       <button class="exit-btn-cancel" onclick="closeExitConfirm()">Keep Going</button>
-      <button class="exit-btn-confirm" onclick="confirmExit()">Yes, Exit</button>
-    </div>
-  </div>
-</div>
-
-<div class="exit-confirm-overlay" id="exit-confirm-overlay">
-  <div class="exit-confirm-box">
-    <span class="exit-confirm-icon">🚪</span>
-    <div class="exit-confirm-title" id="exit-confirm-title">Exit Quiz?</div>
-    <div class="exit-confirm-sub" id="exit-confirm-sub">All progress will be lost.</div>
-    <div class="exit-confirm-btns">
-      <button class="btn btn-ghost" onclick="closeExitConfirm()">Keep Going</button>
-      <button class="btn btn-primary" style="background:linear-gradient(135deg,#dc2626,#ef4444);box-shadow:0 4px 14px rgba(220,38,38,.3);" onclick="confirmExit()">Exit</button>
-    </div>
-  </div>
-</div>
-
-</body>
-</html>
+      <button class="exit-btn-confirm" onclick=
