@@ -763,6 +763,14 @@
   ::selection{background:var(--accent-lt);color:var(--accent);}
   /* Shimmer on loading cards */
   @keyframes shimmerLoad{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  /* Skeleton loading cards */
+  .sk-wrap{display:flex;flex-direction:column;gap:10px;padding:16px;}
+  .sk-card{border-radius:var(--radius);padding:16px;background:var(--surface);border:1.5px solid var(--border);display:flex;flex-direction:column;gap:10px;}
+  .sk-line{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--border) 25%,var(--card) 50%,var(--border) 75%);background-size:300% 100%;animation:shimmerLoad 1.4s ease infinite;}
+  .sk-line.w60{width:60%;}
+  .sk-line.w40{width:40%;}
+  .sk-line.w80{width:80%;}
+  .sk-line.h8{height:8px;}
   /* Pulse for important badges */
   @keyframes badgePop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
   /* Improved dark mode surface colors */
@@ -3102,13 +3110,13 @@
 
     <div class="sidebar-divider"></div>
     <div class="sidebar-section-label">Support &amp; Legal</div>
-    <button class="sidebar-item" onclick="showScreen('bugreport');closeSidebar()">
+    <button class="sidebar-item" onclick="navGuard('bugreport',()=>closeSidebar())">
       <span class="si-icon">🐛</span><span class="si-label">Report a Bug</span>
     </button>
-    <button class="sidebar-item" onclick="showScreen('terms');closeSidebar()">
+    <button class="sidebar-item" onclick="navGuard('terms',()=>closeSidebar())">
       <span class="si-icon">📄</span><span class="si-label">Terms &amp; Conditions</span>
     </button>
-    <button class="sidebar-item" onclick="showScreen('privacy');closeSidebar()">
+    <button class="sidebar-item" onclick="navGuard('privacy',()=>closeSidebar())">
       <span class="si-icon">🔒</span><span class="si-label">Privacy Policy</span>
     </button>
     <div style="height:8px;"></div>
@@ -3291,8 +3299,16 @@
               <div class="psb-lbl">Quizzes Taken</div>
             </div>
             <div class="profile-stat-box">
-              <div class="psb-num" id="pf-stat-avg">0%</div>
+              <div class="psb-num" id="pf-stat-avg">—</div>
               <div class="psb-lbl">Avg Score</div>
+            </div>
+            <div class="profile-stat-box">
+              <div class="psb-num" id="pf-stat-best">—</div>
+              <div class="psb-lbl">Best Score</div>
+            </div>
+            <div class="profile-stat-box">
+              <div class="psb-num" id="pf-stat-streak">0🔥</div>
+              <div class="psb-lbl">Day Streak</div>
             </div>
           </div>
           <button class="profile-action-btn pab-edit" onclick="openEditProfile()">✏️ Edit Profile</button>
@@ -3556,9 +3572,9 @@
       <span class="about-footer-emoji">❤️</span>
       <div class="about-footer-text">Made with love for Paramedical Students<br><strong>Best of luck for your exam! 🎓</strong></div>
       <div class="about-legal-links">
-        <button onclick="showScreen('terms')" class="about-legal-btn">📄 Terms &amp; Conditions</button>
+        <button onclick="navGuard('terms')" class="about-legal-btn">📄 Terms &amp; Conditions</button>
         <span class="about-legal-sep">·</span>
-        <button onclick="showScreen('privacy')" class="about-legal-btn">🔒 Privacy Policy</button>
+        <button onclick="navGuard('privacy')" class="about-legal-btn">🔒 Privacy Policy</button>
         <span class="about-legal-sep">·</span>
         <a href="https://t.me/ParaPrep_Official" target="_blank" rel="noopener" class="about-legal-btn" style="text-decoration:none;background:#229ED9;border-color:#229ED9;color:#fff;">💬 Join Telegram</a>
       </div>
@@ -3678,7 +3694,7 @@
         If you have any questions about these Terms &amp; Conditions, please reach out to us at:
         <div class="legal-contact">
           <span>📧</span>
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank">paraprep.official@gmail.com</a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank"><span class="__cf_email__" data-cfemail="6212031003121007124c0d04040b010b030e22050f030b0e4c010d0f">[email&#160;protected]</span></a>
         </div>
       </div>
     </div>
@@ -3775,7 +3791,7 @@
     <div class="legal-section">
       <div class="legal-section-title">6. Bug Reports</div>
       <div class="legal-section-body">
-        If you submit a bug report using the in-app "Report a Bug" form, the report is sent via Gmail to <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank">paraprep.official@gmail.com</a>. The report may contain the information you voluntarily type (bug description, section, question number). We use this information only to fix the reported issue and do not share it with any third parties.
+        If you submit a bug report using the in-app "Report a Bug" form, the report is sent via Gmail to <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank"><span class="__cf_email__" data-cfemail="1868796a79686a7d6836777e7e717b717974587f75797174367b7775">[email&#160;protected]</span></a>. The report may contain the information you voluntarily type (bug description, section, question number). We use this information only to fix the reported issue and do not share it with any third parties.
       </div>
     </div>
 
@@ -3816,7 +3832,7 @@
         For any privacy-related questions or concerns, please contact us at:
         <div class="legal-contact">
           <span>📧</span>
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank">paraprep.official@gmail.com</a>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" class="legal-email" target="_blank"><span class="__cf_email__" data-cfemail="3848594a59484a5d4816575e5e515b515954785f55595154165b5755">[email&#160;protected]</span></a>
         </div>
       </div>
     </div>
@@ -3847,7 +3863,7 @@
       <div class="br-hero-emoji">🐛</div>
       <div class="br-hero-title">Found something broken?</div>
       <div class="br-hero-sub">Tell us what went wrong and we'll fix it fast. Your feedback helps make ParaPrep better for everyone.</div>
-      <div class="br-hero-badge">📬 Sent to <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" target="_blank">paraprep.official@gmail.com</a></div>
+      <div class="br-hero-badge">📬 Sent to <a href="https://mail.google.com/mail/?view=cm&fs=1&to=paraprep.official@gmail.com" target="_blank"><span class="__cf_email__" data-cfemail="d7a7b6a5b6a7a5b2a7f9b8b1b1beb4beb6bb97b0bab6bebbf9b4b8ba">[email&#160;protected]</span></a></div>
     </div>
 
     <!-- ── Form Card ── -->
@@ -4406,6 +4422,7 @@
      QUESTION BANK — loaded from questions.js
      To add questions, edit questions.js (same folder)
      ═══════════════════════════════════════════════════ -->
+<script src="notes.js"></script>
 <script src="questions.js"></script>
 
 <script>
@@ -4452,7 +4469,7 @@ let attemptHistory = (() => {
   try {
     const u = safeGetLS('ot_user', null);
     if (u && u.name) return JSON.parse(localStorage.getItem('ot_history_' + u.name) || '[]');
-    return safeGetLS('ot_history_guest', []);
+    return safeGetLS(getGuestHistKey(), []);
   } catch(e) {}
   return [];
 })();
@@ -4539,10 +4556,27 @@ function syncBottomNav(id) {
   }
 }
 
+// ── FIX #9: Skeleton loading — show shimmer cards before heavy renders ──
+function showSkeleton(containerId, rows) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const cards = Array.from({length: rows || 3}, () =>
+    `<div class="sk-card">
+      <div class="sk-line w60"></div>
+      <div class="sk-line w80 h8"></div>
+      <div class="sk-line w40 h8"></div>
+    </div>`
+  ).join('');
+  el.innerHTML = `<div class="sk-wrap">${cards}</div>`;
+}
+
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('screen-'+id);
   if (el) el.classList.add('active');
+  // Inject skeleton immediately for heavy screens so there's no blank flash
+  if (id === 'history')     showSkeleton('history-content', 4);
+  if (id === 'performance') showSkeleton('perf-content', 4);
   requestAnimationFrame(() => { window.scrollTo(0,0); document.documentElement.scrollTop=0; });
   // Hide topbar & adjust padding during quiz for full screen feel
   const quizScreens = ['quiz','section-intro'];
@@ -4724,6 +4758,8 @@ function init() {
   initSettings();
   updateSidebarBadges();
   initDailyChallenge();
+  // Check for interrupted quiz to resume
+  setTimeout(checkQuizResume, 800); // slight delay so home screen renders first
   // Shuffle is always enabled — no user setting needed
   // Update dynamic question counts
   const _n = allQuestions.length;
@@ -5311,6 +5347,7 @@ function closeExitConfirm() {
 function confirmExit() {
   closeExitConfirm();
   resetQuizState();
+  clearQuizSnapshot();
   showScreen('home');
 }
 
@@ -5657,6 +5694,7 @@ function clearTimer() { clearInterval(timerInterval); timerInterval = null; }
 function showResult() {
   clearTimer();
   clearSectionTimer();
+  clearQuizSnapshot(); // quiz finished normally — no resume needed
   _qDom = null;
   document.getElementById('section-timer-bar').style.display = 'none';
   document.getElementById('timer-wrap').style.display = '';
@@ -5897,7 +5935,7 @@ function buildHistory() {
 function clearHistory() {
   showConfirmDialog('Clear all attempt history? This cannot be undone.', () => {
     attemptHistory = [];
-    const histKey = currentUser ? 'ot_history_' + currentUser.name : 'ot_history_guest';
+    const histKey = currentUser ? 'ot_history_' + currentUser.name : getGuestHistKey();
     try { localStorage.removeItem(histKey); } catch(e){}
     buildHistory();
     showToast('History cleared','inf');
@@ -5906,87 +5944,7 @@ function clearHistory() {
 
 // ========== QUICK REVISION — TOPICS & NOTES ==========
 
-const revisionTopics = [
-  // ─── OPTOMETRY ───
-  {
-    id:'refraction', course:'Optometry', icon:'👁️', name:'Refraction & Visual Acuity',
-    tag:'opt', pts:8,
-    notes: `
-      <div class="notes-header" style="background:linear-gradient(135deg,#7c3aed,#c084fc);">
-        <div class="notes-header-bl"></div>
-        <div class="notes-header-icon">👁️</div>
-        <div class="notes-header-body">
-          <div class="notes-header-title">Refraction & Visual Acuity</div>
-          <div class="notes-header-sub">OPTOMETRY · BASICS</div>
-        </div>
-      </div>
-      <div class="notes-section">
-        <div class="notes-section-title">📊 Refractive Errors</div>
-        <div style="overflow-x:auto">
-        <table class="notes-table">
-          <tr><th>Condition</th><th>Defect</th><th>Lens Used</th></tr>
-          <tr><td>Myopia (short-sight)</td><td>Image falls in front of retina</td><td>Concave (–)</td></tr>
-          <tr><td>Hypermetropia (long-sight)</td><td>Image falls behind retina</td><td>Convex (+)</td></tr>
-          <tr><td>Astigmatism</td><td>Unequal curvature of cornea</td><td>Cylindrical / toric</td></tr>
-          <tr><td>Presbyopia</td><td>Loss of accommodation (>40 yrs)</td><td>Reading glasses (+)</td></tr>
-        </table></div>
-      </div>
-      <div class="notes-section">
-        <div class="notes-section-title">⚡ Key Facts</div>
-        <div class="notes-list">
-          <div class="notes-item"><strong>Normal VA</strong> = 6/6 (metric) or 20/20 (Snellen); distance to chart = <span class="hi-green">6 metres</span></div>
-          <div class="notes-item"><strong>Snellen chart</strong> — standard 6 metre visual acuity test; largest letter = 6/60; finger counting = 6/60 or worse</div>
-          <div class="notes-item"><strong>Emmetropia</strong> — no refractive error; parallel rays focus exactly on retina at rest</div>
-          <div class="notes-item"><strong>Accommodation</strong> — ciliary muscle contracts → lens thickens → near vision. Lost in presbyopia</div>
-          <div class="notes-item"><strong>Cycloplegia</strong> — paralysis of ciliary muscle (e.g. atropine) for refraction in children</div>
-        </div>
-      </div>
-      <div class="notes-section">
-        <div class="notes-section-title">💡 Mnemonic</div>
-        <div class="mnemonic-box">
-          <div class="mnemonic-title">🧠 Myopia vs Hypermetropia</div>
-          <div class="mnemonic-text"><strong>Myopia = Minus</strong> (concave lens, "M" → "−")<br><strong>Hypermetropia = H = High Plus</strong> (convex lens)</div>
-        </div>
-      </div>`
-  },
-  {
-    id:'optics', course:'Optometry', icon:'🔬', name:'Optics & Lens Power',
-    tag:'opt', pts:7,
-    notes: `
-      <div class="notes-header" style="background:linear-gradient(135deg,#7c3aed,#c084fc);">
-        <div class="notes-header-bl"></div>
-        <div class="notes-header-icon">🔬</div>
-        <div class="notes-header-body">
-          <div class="notes-header-title">Optics & Lens Power</div>
-          <div class="notes-header-sub">OPTOMETRY · PHYSICS OF LIGHT</div>
-        </div>
-      </div>
-      <div class="notes-section">
-        <div class="notes-section-title">⚡ Core Formulas</div>
-        <div class="notes-list">
-          <div class="notes-item"><strong>Lens Power (P)</strong> = 1 / focal length (metres) → unit = <span class="hi-green">Dioptre (D)</span></div>
-          <div class="notes-item"><strong>Snell's Law:</strong> n₁ sin θ₁ = n₂ sin θ₂ (n = refractive index of medium)</div>
-          <div class="notes-item"><strong>Refractive index of cornea</strong> ≈ 1.376; aqueous/vitreous ≈ 1.336; lens ≈ 1.413</div>
-          <div class="notes-item"><strong>Total dioptric power of eye</strong> ≈ 60 D (cornea ≈ 44 D + lens ≈ 16 D at rest)</div>
-          <div class="notes-item"><strong>Critical angle</strong> — angle beyond which total internal reflection occurs (important for gonioscopy)</div>
-        </div>
-      </div>
-      <div class="notes-section">
-        <div class="notes-section-title">📊 Types of Lenses</div>
-        <div style="overflow-x:auto">
-        <table class="notes-table">
-          <tr><th>Lens Type</th><th>Property</th><th>Clinical Use</th></tr>
-          <tr><td>Convex (plus)</td><td>Converges light; real focal point</td><td>Hypermetropia, presbyopia, magnification</td></tr>
-          <tr><td>Concave (minus)</td><td>Diverges light; virtual focal point</td><td>Myopia correction</td></tr>
-          <tr><td>Cylindrical</td><td>Power in one meridian only</td><td>Astigmatism correction</td></tr>
-          <tr><td>Prism</td><td>Deviates light toward base</td><td>Squint, diplopia management</td></tr>
-        </table></div>
-      </div>`
-  },
 
-
-
-];
 
 let activeRevFilter = 'opt';
 
@@ -6475,8 +6433,18 @@ function renderProfilePanel() {
     if (hist.length > 0) {
       const avg = Math.round(hist.reduce((s, h) => s + (h.pct || 0), 0) / hist.length);
       document.getElementById('pf-stat-avg').textContent = avg + '%';
+      const best = Math.max(...hist.map(h => h.pct || 0));
+      document.getElementById('pf-stat-best').textContent = best + '%';
     } else {
       document.getElementById('pf-stat-avg').textContent = '—';
+      document.getElementById('pf-stat-best').textContent = '—';
+    }
+    // Streak
+    try {
+      const streakData = getStreak();
+      document.getElementById('pf-stat-streak').textContent = (streakData.current || 0) + '🔥';
+    } catch(e) {
+      document.getElementById('pf-stat-streak').textContent = '0🔥';
     }
     // Reset to view mode
     document.getElementById('pf-view-mode').style.display = 'block';
@@ -6531,9 +6499,10 @@ async function doProfileLogin() {
   safeSetLS('ot_user', currentUser);
   // Merge any guest history into the user's history
   const userHist = JSON.parse(localStorage.getItem('ot_history_' + user.name) || '[]');
-  const guestHist = safeGetLS('ot_history_guest', []);
+  const guestHist = safeGetLS(getGuestHistKey(), []);
   attemptHistory = [...guestHist, ...userHist].slice(0, 30);
-  if (guestHist.length) { localStorage.removeItem('ot_history_guest'); try { localStorage.setItem('ot_history_' + user.name, JSON.stringify(attemptHistory)); } catch(e){} }
+  if (guestHist.length) { localStorage.removeItem(getGuestHistKey()); try { localStorage.setItem('ot_history_' + user.name, JSON.stringify(attemptHistory)); } catch(e){} }
+  _bmCache = null;
   updateUserUI();
   renderProfilePanel();
   showToast('Welcome back, ' + escapeHtml(user.name) + '! 👋', 'cor');
@@ -6557,9 +6526,10 @@ async function doProfileSignup() {
   currentUser = { name, email, mobile };
   safeSetLS('ot_user', currentUser);
   // Carry over any guest history
-  const guestHist = safeGetLS('ot_history_guest', []);
+  const guestHist = safeGetLS(getGuestHistKey(), []);
   attemptHistory = [...guestHist].slice(0, 30);
-  if (guestHist.length) { localStorage.removeItem('ot_history_guest'); try { localStorage.setItem('ot_history_' + name, JSON.stringify(attemptHistory)); } catch(e){} }
+  if (guestHist.length) { localStorage.removeItem(getGuestHistKey()); try { localStorage.setItem('ot_history_' + name, JSON.stringify(attemptHistory)); } catch(e){} }
+  _bmCache = null;
   updateUserUI();
   renderProfilePanel();
   showToast('Account created! Welcome, ' + escapeHtml(name) + ' 🎉', 'cor');
@@ -6569,6 +6539,7 @@ function continueAsGuestProfile() {
   currentUser = null;
   localStorage.removeItem('ot_user');
   attemptHistory = [];
+  _bmCache = null; // invalidate so getBmKey() picks up guest key
   closeProfilePanel();
   updateUserUI();
   showToast('Continuing as guest 👤', 'inf');
@@ -6578,6 +6549,7 @@ function logoutFromProfile() {
   currentUser = null;
   localStorage.removeItem('ot_user');
   attemptHistory = [];
+  _bmCache = null; // invalidate so getBmKey() picks up guest key
   updateUserUI();
   closeProfilePanel();
   showToast('Logged out successfully', 'inf');
@@ -6706,7 +6678,7 @@ function sidebarNav(tab) {
 
 function updateSidebarBadges() {
   try {
-    const bms = safeGetLS('bm_questions', []);
+    const bms = safeGetLS(getBmKey(), []);
     const badge = document.getElementById('si-bm-badge');
     if (badge) {
       if (bms.length > 0) {
@@ -6866,7 +6838,7 @@ function buildPerformance() {
   try { heatData = JSON.parse(localStorage.getItem(heatKey2) || '{}'); } catch(e) {}
 
   // ── 6. Most missed questions ──
-  const wrongKey2 = currentUser ? 'ot_wrong_' + currentUser.name : 'ot_wrong_guest';
+  const wrongKey2 = currentUser ? 'ot_wrong_' + currentUser.name : 'ot_wrong_guest_' + getGuestId();
   let mostMissed = [];
   try {
     const wm = JSON.parse(localStorage.getItem(wrongKey2) || '{}');
@@ -7492,12 +7464,12 @@ function saveAttempt(pct, total, avg, marksScored, marksMax) {
       initDailyChallenge();
     }
   }
-  const histKey = currentUser ? 'ot_history_' + currentUser.name : 'ot_history_guest';
+  const histKey = currentUser ? 'ot_history_' + currentUser.name : getGuestHistKey();
   const qCount = quizQuestions.length;
   const label = mode==='mock' ? 'Mock Test (100Q)' : mode==='subject' ? `Subject: ${selectedSubject} (${qCount}Q)` : mode==='topic' ? `Topic: ${selectedTopic||selectedSubject} (${qCount}Q)` : `Practice (${qCount}Q)`;
 
   // Track wrong questions for "Most Missed" feature
-  const wrongKey = currentUser ? 'ot_wrong_' + currentUser.name : 'ot_wrong_guest';
+  const wrongKey = currentUser ? 'ot_wrong_' + currentUser.name : 'ot_wrong_guest_' + getGuestId();
   try {
     const wrongMap = JSON.parse(localStorage.getItem(wrongKey) || '{}');
     quizQuestions.forEach((q, i) => {
@@ -7771,12 +7743,12 @@ function shareScoreCard() {
 let _bmCache = null; // in-memory cache — invalidated on every saveBookmarks()
 function getBookmarks() {
   if (_bmCache !== null) return _bmCache;
-  try { _bmCache = safeGetLS('bm_questions', []); } catch(e) { _bmCache = []; }
+  try { _bmCache = safeGetLS(getBmKey(), []); } catch(e) { _bmCache = []; }
   return _bmCache;
 }
 function saveBookmarks(arr) {
   _bmCache = arr;
-  localStorage.setItem('bm_questions', JSON.stringify(arr));
+  localStorage.setItem(getBmKey(), JSON.stringify(arr));
   updateBookmarkCountUI();
   updateSidebarBadges();
 }
@@ -8150,10 +8122,146 @@ window.addEventListener('popstate', () => {
 history.pushState(null, '');
 
 // ========== PAGE LIFECYCLE — quiz protection ==========
+// ── navGuard: show exit confirm when navigating away from active quiz ──
+function navGuard(screenId, afterFn) {
+  if (isQuizActive() && quizQuestions.length) {
+    showConfirmDialog('Leaving now will end your quiz. All progress will be lost.', () => {
+      resetQuizState();
+      showScreen(screenId);
+      if (afterFn) afterFn();
+    });
+    return;
+  }
+  showScreen(screenId);
+  if (afterFn) afterFn();
+}
+
+// ── Quiz Save & Resume across app background/close ──
+const QUIZ_SAVE_KEY = 'paraprep_quiz_resume';
+
+function saveQuizSnapshot() {
+  if (!isQuizActive() || !quizQuestions.length) return;
+  try {
+    const snap = {
+      mode, mockExamType,
+      selectedSubject, selectedTopic,
+      activeCourse,
+      currentQ,
+      results: JSON.parse(JSON.stringify(results)),
+      answers: [...results.answers],
+      quizQuestions: quizQuestions.map(q => q.q), // store question text as keys
+      mockAnswerMap: {...mockAnswerMap},
+      lockedSections,
+      currentSection,
+      sectionTimeLeft,
+      timeLeft,
+      savedAt: Date.now()
+    };
+    localStorage.setItem(QUIZ_SAVE_KEY, JSON.stringify(snap));
+  } catch(e) {}
+}
+
+function clearQuizSnapshot() {
+  try { localStorage.removeItem(QUIZ_SAVE_KEY); } catch(e) {}
+}
+
+function checkQuizResume() {
+  try {
+    const raw = localStorage.getItem(QUIZ_SAVE_KEY);
+    if (!raw) return;
+    const snap = JSON.parse(raw);
+    // Only offer resume if saved within last 2 hours
+    if (!snap || Date.now() - snap.savedAt > 2 * 60 * 60 * 1000) {
+      clearQuizSnapshot(); return;
+    }
+    // Don't offer if quiz is already running
+    if (isQuizActive()) return;
+    showResumePrompt(snap);
+  } catch(e) { clearQuizSnapshot(); }
+}
+
+function showResumePrompt(snap) {
+  const overlay = document.getElementById('resume-overlay');
+  if (!overlay) return;
+  const modeLabel = snap.mode === 'mock'
+    ? (snap.mockExamType === 'haryana' ? 'Haryana CET Mock' : 'AIIMS CRE Mock')
+    : snap.mode === 'topic' ? 'Topic MCQ'
+    : snap.mode === 'subject' ? 'Subject Quiz'
+    : 'Practice Quiz';
+  const qDone = snap.currentQ;
+  const qTotal = snap.quizQuestions.length;
+  document.getElementById('resume-mode-label').textContent = modeLabel;
+  document.getElementById('resume-progress-label').textContent = `Question ${qDone + 1} of ${qTotal}`;
+  overlay.classList.add('open');
+}
+
+function dismissResume() {
+  document.getElementById('resume-overlay').classList.remove('open');
+  clearQuizSnapshot();
+}
+
+function doResume() {
+  try {
+    const raw = localStorage.getItem(QUIZ_SAVE_KEY);
+    if (!raw) return;
+    const snap = JSON.parse(raw);
+    document.getElementById('resume-overlay').classList.remove('open');
+
+    // Restore quiz state from snapshot
+    mode = snap.mode;
+    mockExamType = snap.mockExamType || 'aiims';
+    selectedSubject = snap.selectedSubject || null;
+    selectedTopic = snap.selectedTopic || null;
+
+    // Re-match questions by text key
+    const qMap = {};
+    allQuestions.forEach(q => { qMap[q.q] = q; });
+    quizQuestions = snap.quizQuestions.map(qText => qMap[qText]).filter(Boolean);
+
+    if (!quizQuestions.length) {
+      showToast('Could not restore quiz questions.', 'wrn');
+      clearQuizSnapshot(); return;
+    }
+
+    currentQ = snap.currentQ;
+    results = snap.results;
+    results.answers = snap.answers;
+    mockAnswerMap = snap.mockAnswerMap || {};
+    lockedSections = snap.lockedSections || [];
+    currentSection = snap.currentSection || 0;
+    sectionTimeLeft = snap.sectionTimeLeft || 1080;
+    timeLeft = snap.timeLeft || 40;
+    answered = false;
+    selectedAnswer = null;
+
+    showScreen('quiz');
+    renderQuestion();
+    // Restart timers
+    if (mode === 'mock') {
+      if (mockExamType === 'haryana') startHaryanaTimer();
+      else startSectionTimer();
+    } else {
+      startTimer();
+    }
+    clearQuizSnapshot();
+    showToast('▶ Quiz resumed!', 'cor');
+  } catch(e) {
+    showToast('Could not resume quiz.', 'wrn');
+    clearQuizSnapshot();
+  }
+}
+
+// Save snapshot when tab is hidden or page unloads
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') saveQuizSnapshot();
+});
+window.addEventListener('pagehide', saveQuizSnapshot);
+
 function isQuizActive() {
   const active = document.querySelector('.screen.active');
   if (!active) return false;
   const id = active.id.replace('screen-','');
+  if (id === 'result') return false; // quiz finished, allow free navigation
   return id === 'quiz' || id === 'section-intro';
 }
 
@@ -8395,6 +8503,29 @@ function safeSetLS(key, value) {
   catch(e) { console.warn('localStorage write error:', key); return false; }
 }
 
+// ── FIX #7: Guest isolation — each guest gets a stable private ID ──
+// Prevents two people using the same device as guest from sharing history/bookmarks.
+function getGuestId() {
+  let id = localStorage.getItem('paraprep_guest_id');
+  if (!id) {
+    id = Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+    localStorage.setItem('paraprep_guest_id', id);
+  }
+  return id;
+}
+function getGuestHistKey() { return 'ot_history_guest_' + getGuestId(); }
+function getBmKey() {
+  return currentUser ? 'bm_questions_' + currentUser.name : 'bm_questions_guest_' + getGuestId();
+}
+// One-time migration: if old shared guest keys have data, move them to the new keyed location
+(function migrateGuestData() {
+  const id = getGuestId();
+  const oldHist = localStorage.getItem('ot_history_guest');
+  if (oldHist) { localStorage.setItem('ot_history_guest_' + id, oldHist); localStorage.removeItem('ot_history_guest'); }
+  const oldBm = localStorage.getItem('bm_questions');
+  if (oldBm && !currentUser) { localStorage.setItem('bm_questions_guest_' + id, oldBm); localStorage.removeItem('bm_questions'); }
+})();
+
 let _isDailyChallenge = false;
 
 function initDailyChallenge() {
@@ -8422,6 +8553,23 @@ function initDailyChallenge() {
     card.onclick = startDailyChallenge;
   }
 }
+
+// ── FIX #10: Schedule daily badge reset exactly at midnight ──
+// So if the tab stays open past midnight the badge flips to "Start →" automatically.
+(function scheduleMidnightReset() {
+  function msUntilMidnight() {
+    const now = new Date();
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 2); // 2s past midnight
+    return midnight - now;
+  }
+  function setMidnightTimer() {
+    setTimeout(() => {
+      initDailyChallenge();   // re-render badge for the new day
+      setMidnightTimer();     // schedule next midnight
+    }, msUntilMidnight());
+  }
+  setMidnightTimer();
+})();
 
 function startDailyChallenge() {
   const today = new Date().toDateString();
@@ -8544,12 +8692,33 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-<!-- ── EXIT CONFIRM OVERLAY ── -->
-<div class="overlay" id="exit-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;padding:20px;">
-  <div class="exit-confirm-box" onclick="event.stopPropagation()">
-    <div class="exit-confirm-icon">🚪</div>
-    <div class="exit-confirm-title">Quit this quiz?</div>
-    <div class="exit-confirm-sub">Your progress will be lost.</div>
+
+<!-- ── RESUME QUIZ OVERLAY ── -->
+<div class="exit-confirm-overlay" id="resume-overlay">
+  <div class="exit-confirm-box" onclick="event.stopPropagation()" style="text-align:center;">
+    <span class="exit-confirm-icon">▶️</span>
+    <div class="exit-confirm-title">Resume your quiz?</div>
+    <div style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:6px;" id="resume-mode-label">Practice Quiz</div>
+    <div style="font-size:12px;color:var(--muted);font-weight:500;margin-bottom:22px;" id="resume-progress-label">Question 1 of 20</div>
     <div class="exit-confirm-btns">
-      <button class="exit-btn-cancel" onclick="closeExitConfirm()">Keep Going</button>
-      <button class="exit-btn-confirm" onclick=
+      <button class="btn" onclick="dismissResume()" style="background:var(--card);color:var(--text);border:1.5px solid var(--border);">Start Fresh</button>
+      <button class="btn btn-primary" onclick="doResume()">▶ Resume</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── EXIT CONFIRM OVERLAY ── -->
+<div class="exit-confirm-overlay" id="exit-confirm-overlay" onclick="closeExitConfirm()">
+  <div class="exit-confirm-box" onclick="event.stopPropagation()">
+    <span class="exit-confirm-icon" id="exit-confirm-icon">🚪</span>
+    <div class="exit-confirm-title" id="exit-confirm-title">Exit Quiz?</div>
+    <div class="exit-confirm-sub" id="exit-confirm-sub">All progress will be lost.</div>
+    <div class="exit-confirm-btns">
+      <button class="btn" onclick="closeExitConfirm()" style="background:var(--card);color:var(--text);border:1.5px solid var(--border);">Keep Going</button>
+      <button class="btn btn-danger" onclick="confirmExit()" style="background:var(--red);color:#fff;border:none;">Exit</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
